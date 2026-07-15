@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agent Browser Task",
+  "description": "Definition for a reusable Agent Browser task with structured inputs and outputs.",
+  "type": "object",
+  "required": ["name", "version", "steps", "outputSchema"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Unique identifier for the task."
+    },
+    "version": {
+      "type": "string",
+      "description": "Semantic version of the task."
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what the task does."
+    },
+    "inputSchema": {
+      "type": "object",
+      "description": "JSON schema defining the expected input parameters for this task.",
+      "additionalProperties": true
+    },
+    "outputSchema": {
+      "type": "object",
+      "description": "JSON schema defining the structure of the deterministic output.",
+      "additionalProperties": true
+    },
+    "webhookUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional webhook URL to call upon task completion or failure."
+    },
+    "steps": {
+      "type": "array",
+      "description": "A sequence of instructions or prompts to execute the task.",
+      "items": {
+        "type": "object",
+        "required": ["action"],
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "The command or prompt to execute (e.g., 'goto', 'click', 'read', or a natural language prompt)."
+          },
+          "args": {
+            "type": "object",
+            "description": "Arguments for the action.",
+            "additionalProperties": true
+          }
+        }
+      }
+    }
+  }
+}

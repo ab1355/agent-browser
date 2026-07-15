@@ -149,6 +149,7 @@ pub fn is_top_level_command(value: &str) -> bool {
             | "mcp"
             | "doctor"
             | "install"
+            | "serve"
             | "upgrade"
             | "profiles"
             | "skills"
