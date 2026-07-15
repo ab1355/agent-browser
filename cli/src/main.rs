@@ -10,6 +10,7 @@ mod native;
 mod output;
 mod plugins;
 mod read;
+mod serve;
 mod skills;
 #[cfg(test)]
 mod test_utils;
@@ -993,6 +994,23 @@ fn main() {
 
     if clean.is_empty() {
         print_help();
+        return;
+    }
+
+    // Handle serve separately
+    if clean.first().map(|s| s.as_str()) == Some("serve") {
+        let port = args
+            .iter()
+            .position(|a| a == "--port" || a == "-p")
+            .and_then(|idx| args.get(idx + 1))
+            .and_then(|p| p.parse::<u16>().ok())
+            .unwrap_or(3000);
+            
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        if let Err(e) = runtime.block_on(crate::serve::start_server(port)) {
+            eprintln!("{} Failed to start REST API server: {}", color::red("error:"), e);
+            exit(1);
+        }
         return;
     }
 
