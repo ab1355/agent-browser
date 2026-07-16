@@ -11,7 +11,7 @@ To accurately size your environment, it is important to understand how `agent-br
    - **CPU**: Near 0% utilization when idle.
 
 2. **The Browser (Chrome / Chromium)**: Chrome is a multi-process browser that spawns separate processes for renderers, network services, storage, and utility tasks. Chrome dominates the system resource consumption:
-   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to 400–800 MB RSS per active session.
+   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to between 400 and 800 MB RSS per active session.
    - **CPU**: High-concurrency browser automation is CPU-intensive, especially on pages with heavy animations, streaming data, WebGL/WebGPU, or when utilizing software-rasterization fallback (SwiftShader) in headless Linux containers without a physical GPU.
 
 ## Resource Requirements by Usage Tier
@@ -39,9 +39,12 @@ The following table outlines the recommended resource allocations based on the n
 To scale `agent-browser` efficiently across many agents, incorporate the following optimization patterns:
 
 ### 1. Auto-Optimized Browser Launch Arguments
-`agent-browser` comes pre-configured with memory and CPU-saving flags that match the high-efficiency requirements of headless servers and containers. When launched, the browser disables unnecessary processes automatically:
-- **Audio Process Muting** (`--mute-audio`): Prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM (reference measurement under specific test conditions, actual savings may vary by platform and Chrome version) and avoiding unnecessary utility processes.
-- **GPU Suppression** (`--disable-gpu`): When WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM (typical reference value under headless Linux; actual results depend on system drivers and configurations) and eliminate driver initialization overhead on headless servers.
+`agent-browser` comes pre-configured with memory and CPU-saving flags that match the high-efficiency requirements of headless servers and containers. When launched, the browser disables unnecessary processes automatically.
+
+*Note: Memory savings are typical reference measurements (e.g., under headless Linux) and may vary depending on the operating system, driver configuration, and Chrome version.*
+
+- **Audio Process Muting** (`--mute-audio`): Prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM and avoiding unnecessary utility processes.
+- **GPU Suppression** (`--disable-gpu`): When WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM and eliminate driver initialization overhead on headless servers.
 - **Shared Memory Cache** (`--disable-dev-shm-usage`): Automatically used in CI, Docker, and Podman containers to write shared memory to disk instead of `/dev/shm`, preventing random tab crashes due to small shm limits.
 - **Sandbox Controls** (`--no-sandbox`): Automatically active in containerized or root environments where namespaces are restricted, reducing overhead.
 
