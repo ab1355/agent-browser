@@ -56,7 +56,7 @@ For extremely resource-constrained servers or dense agent environments, you can 
 ### 3. Ephemeral State & Disk I/O Management
 Every time an agent starts a session without specifying a profile, a new user data directory is created in `/tmp`. This writes tens of megabytes of configuration and caches. To optimize startup latency and avoid excessive disk I/O:
 - **Use tmpfs**: Mount `/tmp` as an in-memory file system (tmpfs). This speeds up browser cold starts dramatically.
-- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms. This caches assets, cookies, and cookies-auth state, reducing the network and CPU load of repeated authentication flows.
+- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms. This caches assets, cookies, and authentication state, reducing the network and CPU load of repeated authentication flows.
 
 ### 4. Direct Visual and Accessibility-First Interaction
 Minimize the extraction of heavy raw HTML or visual screenshots. Instead, leverage `agent-browser`’s optimized accessibility tree (AXTree) snapshots.
