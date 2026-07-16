@@ -11,7 +11,7 @@ To accurately size your environment, it is important to understand how `agent-br
    - **CPU**: Near 0% utilization when idle.
 
 2. **The Browser (Chrome / Chromium)**: Chrome is a multi-process browser that spawns separate processes for renderers, network services, storage, and utility tasks. Chrome dominates the system resource consumption:
-   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to between 400 and 800 MB RSS per active session.
+   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to from 400 to 800 MB RSS per active session.
    - **CPU**: High-concurrency browser automation is CPU-intensive, especially on pages with heavy animations, streaming data, WebGL/WebGPU, or when utilizing software-rasterization fallback (SwiftShader) in headless Linux containers without a physical GPU.
 
 ## Resource Requirements by Usage Tier
@@ -25,7 +25,7 @@ The following table outlines the recommended resource allocations based on the n
 | **Heavy (Scale)** | 11–50+ | 16–64+ vCPUs | 32–128+ GB | 50+ GB | Enterprise-grade multi-agent frameworks, dense scraping pipelines, high-frequency tasks. |
 
 ### CPU Allocation Guidelines
-- **Minimum**: Allocate at least **0.5–1 vCPU per active agent**.
+- **Minimum**: Allocate at least **0.5 to 1 vCPU per active agent**.
 - **Recommended**: For heavy workloads (complex Single Page Applications, multi-tab automation, or visual processing), allocate **1.5 to 2 vCPUs per active agent** to prevent pages from timing out during CPU-bound tasks like accessibility tree (AXTree) snapshotting.
 
 ### Memory Allocation Guidelines
