@@ -77,6 +77,7 @@ Detects your installation method (npm, Homebrew, or Cargo) and runs the appropri
 ### Requirements
 
 - **Chrome** - Run `agent-browser install` to download Chrome from [Chrome for Testing](https://developer.chrome.com/blog/chrome-for-testing/) (Google's official automation channel). Existing Chrome, Brave, Playwright, and Puppeteer installations are detected automatically. No Playwright or Node.js required for the daemon.
+- **System Resources** - Headless browser automation can be resource intensive. Check the [Resource Sizing Guide](SIZE.md) for details on CPU, memory, and disk requirements across different concurrency tiers.
 - **Node.js 24+ and pnpm 11+** - Only needed when building from source.
 - **Rust** - Only needed when building from source (see From Source above).
 
@@ -1458,6 +1459,8 @@ agent-browser uses a client-daemon architecture:
 The daemon starts automatically on first command and persists between commands for fast subsequent operations. To auto-shutdown the daemon after a period of inactivity, set `AGENT_BROWSER_IDLE_TIMEOUT_MS` (value in milliseconds). When set, the daemon closes the browser and exits after receiving no commands for the specified duration.
 
 **Browser Engine:** Uses Chrome (from Chrome for Testing) by default. The `--engine` flag selects between `chrome` and `lightpanda`. Supported browsers: Chromium/Chrome (via CDP) and Safari (via WebDriver for iOS).
+
+To maximize performance and keep resource utilization low, the native launcher automatically optimizes headless Chrome instances with flags like `--mute-audio` and `--disable-gpu` (when WebGPU is not requested). This reduces memory usage by up to 120 MB per active agent session. For complete deployment guidelines, refer to the [Resource Sizing Guide](SIZE.md).
 
 ## Platforms
 
