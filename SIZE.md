@@ -11,7 +11,7 @@ To accurately size your environment, it is important to understand how `agent-br
    - **CPU**: Near 0% utilization when idle.
 
 2. **The Browser (Chrome / Chromium)**: Chrome is a multi-process browser that spawns separate processes for renderers, network services, storage, and utility tasks. Chrome dominates the system resource consumption:
-   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to from 400 to 800 MB RSS per active session.
+   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this from 400 to 800 MB RSS per active session.
    - **CPU**: High-concurrency browser automation is CPU-intensive, especially on pages with heavy animations, streaming data, WebGL/WebGPU, or when utilizing software-rasterization fallback (SwiftShader) in headless Linux containers without a physical GPU.
 
 ## Resource Requirements by Usage Tier
@@ -59,7 +59,7 @@ For extremely resource-constrained servers or dense agent environments, you can 
 ### 3. Ephemeral State & Disk I/O Management
 Every time an agent starts a session without specifying a profile, a new user data directory is created in `/tmp`. This writes tens of megabytes of configuration and caches. To optimize startup latency and avoid excessive disk I/O:
 - **Use tmpfs**: Mount `/tmp` as an in-memory file system (tmpfs). This speeds up browser cold starts dramatically.
-- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms (see the `--profile` option in `--help` or `README.md` for details). This caches assets, cookies, and authentication state, reducing the network and CPU load of repeated authentication flows.
+- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms (see the `--profile` option in `agent-browser --help` or `README.md` for details). This caches assets, cookies, and authentication state, reducing the network and CPU load of repeated authentication flows.
 
 ### 4. Direct Visual and Accessibility-First Interaction
 Minimize the extraction of heavy raw HTML or visual screenshots. Instead, leverage `agent-browser`’s optimized accessibility tree (AXTree) snapshots.
