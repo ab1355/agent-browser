@@ -7,7 +7,7 @@ This guide provides recommended system resource requirements and optimization pa
 To accurately size your environment, it is important to understand how `agent-browser` allocates resources:
 
 1. **The Native Daemon (Rust)**: Built on a lightweight, asynchronous Rust architecture. The daemon acts as a highly optimized, direct-to-CDP relay. It has a remarkably tiny footprint:
-   - **RAM**: ~7 MB RSS (Resident Set Size). Unlike Node.js or Playwright-based daemons which incur ~140 MB of V8 runtime overhead, the Rust native daemon is optimized for rapid startups and negligible memory footprint.
+   - **RAM**: ~7 MB RSS (Resident Set Size). The Rust native daemon has an extremely tiny memory footprint, optimized for rapid startups and negligible overhead.
    - **CPU**: Near 0% utilization when idle.
 
 2. **The Browser (Chrome / Chromium)**: Chrome is a multi-process browser that spawns separate processes for renderers, network services, storage, and utility tasks. Chrome dominates the system resource consumption:
@@ -56,7 +56,7 @@ For extremely resource-constrained servers or dense agent environments, you can 
 ### 3. Ephemeral State & Disk I/O Management
 Every time an agent starts a session without specifying a profile, a new user data directory is created in `/tmp`. This writes tens of megabytes of configuration and caches. To optimize startup latency and avoid excessive disk I/O:
 - **Use tmpfs**: Mount `/tmp` as an in-memory file system (tmpfs). This speeds up browser cold starts dramatically.
-- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms. This caches assets, cookies, and authentication state, reducing the network and CPU load of repeated authentication flows.
+- **Profile Reuse**: Use `--profile` with a persistent or shared profile directory when agents are repeatedly visiting the same platforms (see the `--profile` option in `--help` or `README.md` for details). This caches assets, cookies, and authentication state, reducing the network and CPU load of repeated authentication flows.
 
 ### 4. Direct Visual and Accessibility-First Interaction
 Minimize the extraction of heavy raw HTML or visual screenshots. Instead, leverage `agent-browser`’s optimized accessibility tree (AXTree) snapshots.
