@@ -26,7 +26,7 @@ The following table outlines the recommended resource allocations based on the n
 
 ### CPU Allocation Guidelines
 - **Minimum**: Allocate at least **0.5–1 vCPU per active agent**.
-- **Recommended**: For heavy workloads (complex Single Page Applications, multi-tab automation, or visual processing), allocate **1.5 to 2 vCPUs per active agent** to prevent page timing out during CPU-bound tasks like accessibility tree (AXTree) snapshotting.
+- **Recommended**: For heavy workloads (complex Single Page Applications, multi-tab automation, or visual processing), allocate **1.5 to 2 vCPUs per active agent** to prevent pages from timing out during CPU-bound tasks like accessibility tree (AXTree) snapshotting.
 
 ### Memory Allocation Guidelines
 - **Minimum**: Allocate **1 GB of RAM per concurrent agent** plus 1 GB of system headroom.
