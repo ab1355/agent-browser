@@ -40,8 +40,8 @@ To scale `agent-browser` efficiently across many agents, incorporate the followi
 
 ### 1. Auto-Optimized Browser Launch Arguments
 `agent-browser` comes pre-configured with memory and CPU-saving flags that match the high-efficiency requirements of headless servers and containers. When launched, the browser disables unnecessary processes automatically:
-- **Audio Process Muting** (`--mute-audio`): Prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM (based on headless Linux tests) and avoiding unnecessary utility processes.
-- **GPU Suppression** (`--disable-gpu`): When WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM (depending on system drivers and headless configuration) and eliminate driver initialization overhead on headless servers.
+- **Audio Process Muting** (`--mute-audio`): Prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM (reference measurement under specific test conditions, actual savings may vary by platform and Chrome version) and avoiding unnecessary utility processes.
+- **GPU Suppression** (`--disable-gpu`): When WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM (typical reference value under headless Linux; actual results depend on system drivers and configurations) and eliminate driver initialization overhead on headless servers.
 - **Shared Memory Cache** (`--disable-dev-shm-usage`): Automatically used in CI, Docker, and Podman containers to write shared memory to disk instead of `/dev/shm`, preventing random tab crashes due to small shm limits.
 - **Sandbox Controls** (`--no-sandbox`): Automatically active in containerized or root environments where namespaces are restricted, reducing overhead.
 

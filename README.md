@@ -1460,7 +1460,7 @@ The daemon starts automatically on first command and persists between commands f
 
 **Browser Engine:** Uses Chrome (from Chrome for Testing) by default. The `--engine` flag selects between `chrome` and `lightpanda`. Supported browsers: Chromium/Chrome (via CDP) and Safari (via WebDriver for iOS).
 
-To maximize performance and keep resource utilization low, the native launcher automatically optimizes headless Chrome instances with flags like `--mute-audio` and `--disable-gpu` (when WebGPU is not requested). This reduces memory usage by up to 120 MB per active agent session. For complete deployment guidelines, refer to the [Resource Sizing Guide](SIZE.md).
+To maximize performance and keep resource utilization low, the native launcher automatically optimizes headless Chrome instances with flags like `--mute-audio` and `--disable-gpu` (when WebGPU is not requested). This reduces memory usage by up to approximately 120 MB (combined typical maximum) per active agent session, depending on the platform and configuration. For complete deployment guidelines, refer to the [Resource Sizing Guide](SIZE.md).
 
 ## Platforms
 
