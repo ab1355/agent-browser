@@ -7,11 +7,11 @@ This guide provides recommended system resource requirements and optimization pa
 To accurately size your environment, it is important to understand how `agent-browser` allocates resources:
 
 1. **The Native Daemon (Rust)**: Built on a lightweight, asynchronous Rust architecture. The daemon acts as a highly optimized, direct-to-CDP relay. It has a remarkably tiny footprint:
-   - **RAM**: ~7 MB RSS (Resident Set Size). The Rust native daemon has an extremely tiny memory footprint, optimized for rapid startups and negligible overhead.
+   - **RAM**: ~7 MB RSS (Resident Set Size), optimized for rapid startups and negligible overhead.
    - **CPU**: Near 0% utilization when idle.
 
 2. **The Browser (Chrome / Chromium)**: Chrome is a multi-process browser that spawns separate processes for renderers, network services, storage, and utility tasks. Chrome dominates the system resource consumption:
-   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to 400 MB — 800 MB RSS per active session.
+   - **Memory**: A fresh, headless Chrome instance starts at ~150 MB of RSS. However, modern JavaScript-heavy web applications, rich dashboards, or large Single Page Applications (SPAs) will quickly scale this to 400–800 MB RSS per active session.
    - **CPU**: High-concurrency browser automation is CPU-intensive, especially on pages with heavy animations, streaming data, WebGL/WebGPU, or when utilizing software-rasterization fallback (SwiftShader) in headless Linux containers without a physical GPU.
 
 ## Resource Requirements by Usage Tier
@@ -20,12 +20,12 @@ The following table outlines the recommended resource allocations based on the n
 
 | Usage Tier | Concurrent Agents | Recommended vCPUs | Recommended RAM | Recommended Disk Space (Ephemeral) | Primary Use Case |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Minimal (Light)** | 1 — 2 | 2 vCPUs | 2 GB | 5 GB | Single-agent workflows, lightweight scraping, simple form-filling, or testing. |
-| **Moderate (Medium)** | 3 — 10 | 4 — 8 vCPUs | 8 — 16 GB | 10 — 20 GB | Parallel testing suites, multiple simultaneous agents, monitoring dashboards. |
-| **Heavy (Scale)** | 11 — 50+ | 16 — 64+ vCPUs | 32 — 128+ GB | 50+ GB | Enterprise-grade multi-agent frameworks, dense scraping pipelines, high-frequency tasks. |
+| **Minimal (Light)** | 1–2 | 2 vCPUs | 2 GB | 5 GB | Single-agent workflows, lightweight scraping, simple form-filling, or testing. |
+| **Moderate (Medium)** | 3–10 | 4–8 vCPUs | 8–16 GB | 10–20 GB | Parallel testing suites, multiple simultaneous agents, monitoring dashboards. |
+| **Heavy (Scale)** | 11–50+ | 16–64+ vCPUs | 32–128+ GB | 50+ GB | Enterprise-grade multi-agent frameworks, dense scraping pipelines, high-frequency tasks. |
 
 ### CPU Allocation Guidelines
-- **Minimum**: Allocate at least **0.5 to 1 vCPU per active agent**.
+- **Minimum**: Allocate at least **0.5–1 vCPU per active agent**.
 - **Recommended**: For heavy workloads (complex Single Page Applications, multi-tab automation, or visual processing), allocate **1.5 to 2 vCPUs per active agent** to prevent page timing out during CPU-bound tasks like accessibility tree (AXTree) snapshotting.
 
 ### Memory Allocation Guidelines
