@@ -409,6 +409,7 @@ fn build_chrome_args(options: &LaunchOptions) -> Result<ChromeArgs, String> {
         "--disable-features=Translate".to_string(),
         format!("--enable-features={}", enable_features.join(",")),
         "--metrics-recording-only".to_string(),
+        "--mute-audio".to_string(),
     ];
 
     if options.webgpu {
@@ -426,6 +427,8 @@ fn build_chrome_args(options: &LaunchOptions) -> Result<ChromeArgs, String> {
             args.push("--use-webgpu-adapter=swiftshader".to_string());
             args.push("--disable-vulkan-surface".to_string());
         }
+    } else {
+        args.push("--disable-gpu".to_string());
     }
 
     if !options.use_real_keychain {
