@@ -409,7 +409,6 @@ fn build_chrome_args(options: &LaunchOptions) -> Result<ChromeArgs, String> {
         "--disable-features=Translate".to_string(),
         format!("--enable-features={}", enable_features.join(",")),
         "--metrics-recording-only".to_string(),
-        "--mute-audio".to_string(),
     ];
 
     if options.webgpu {
@@ -427,8 +426,6 @@ fn build_chrome_args(options: &LaunchOptions) -> Result<ChromeArgs, String> {
             args.push("--use-webgpu-adapter=swiftshader".to_string());
             args.push("--disable-vulkan-surface".to_string());
         }
-    } else {
-        args.push("--disable-gpu".to_string());
     }
 
     if !options.use_real_keychain {
@@ -445,6 +442,14 @@ fn build_chrome_args(options: &LaunchOptions) -> Result<ChromeArgs, String> {
     // injected in headless mode).  Skip --headless when extensions are loaded.
     if options.headless && !has_extensions {
         args.push("--headless=new".to_string());
+        // Mute audio and suppress the GPU process only in headless mode.
+        // In headed launches users may legitimately need audio output and
+        // GPU-accelerated rendering; restricting these flags to headless
+        // avoids silently breaking those use-cases.
+        args.push("--mute-audio".to_string());
+        if !options.webgpu {
+            args.push("--disable-gpu".to_string());
+        }
         // Linux paints native scrollbars into viewport screenshots unless
         // Chrome is launched with this flag. `--hide-scrollbars` is
         // presence-based, so agent-browser exposes --hide-scrollbars false

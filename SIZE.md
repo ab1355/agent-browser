@@ -20,9 +20,9 @@ The following table outlines the recommended resource allocations based on the n
 
 | Usage Tier | Concurrent Agents | Recommended vCPUs | Recommended RAM | Recommended Disk Space (Ephemeral) | Primary Use Case |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Minimal (Light)** | 1–2 | 2 vCPUs | 2 GB | 5 GB | Single-agent workflows, lightweight scraping, simple form-filling, or testing. |
-| **Moderate (Medium)** | 3–10 | 4–8 vCPUs | 8–16 GB | 10–20 GB | Parallel testing suites, multiple simultaneous agents, monitoring dashboards. |
-| **Heavy (Scale)** | 11–50+ | 16–64+ vCPUs | 32–128+ GB | 50+ GB | Enterprise-grade multi-agent frameworks, dense scraping pipelines, high-frequency tasks. |
+| **Minimal (Light)** | 1 to 2 | 2 vCPUs | 2 GB | 5 GB | Single-agent workflows, lightweight scraping, simple form-filling, or testing. |
+| **Moderate (Medium)** | 3 to 10 | 4 to 8 vCPUs | 8 to 16 GB | 10 to 20 GB | Parallel testing suites, multiple simultaneous agents, monitoring dashboards. |
+| **Heavy (Scale)** | 11 to 50+ | 16 to 64+ vCPUs | 32 to 128+ GB | 50+ GB | Enterprise-grade multi-agent frameworks, dense scraping pipelines, high-frequency tasks. |
 
 ### CPU Allocation Guidelines
 - **Minimum**: Allocate at least **0.5 to 1 vCPU per active agent**.
@@ -43,8 +43,8 @@ To scale `agent-browser` efficiently across many agents, incorporate the followi
 
 *Note: Memory savings are typical reference measurements (e.g., under headless Linux) and may vary depending on the operating system, driver configuration, and Chrome version.*
 
-- **Audio Process Muting** (`--mute-audio`): Prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM and avoiding unnecessary utility processes.
-- **GPU Suppression** (`--disable-gpu`): When WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM and eliminate driver initialization overhead on headless servers.
+- **Audio Process Muting** (`--mute-audio`): In headless mode, prevents Chrome from initializing audio pipelines, saving approximately 20 MB of RAM and avoiding unnecessary utility processes.
+- **GPU Suppression** (`--disable-gpu`): In headless mode, when WebGPU is not requested, the GPU process is suppressed to save up to 100 MB of RAM and eliminate driver initialization overhead on headless servers.
 - **Shared Memory Cache** (`--disable-dev-shm-usage`): Automatically used in CI, Docker, and Podman containers to write shared memory to disk instead of `/dev/shm`, preventing random tab crashes due to small shm limits.
 - **Sandbox Controls** (`--no-sandbox`): Automatically active in containerized or root environments where namespaces are restricted, reducing overhead.
 
