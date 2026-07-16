@@ -24,6 +24,7 @@ When adding or changing user-facing features (new flags, commands, behaviors, en
 3. `skill-data/core/SKILL.md` (and its `references/`) — so AI agents know about the feature when they load the core skill. Edit `skill-data/core/SKILL.md` for overview/workflow changes; edit `skill-data/core/references/*.md` for detailed reference content. Do **not** put feature content in `skills/agent-browser/SKILL.md` — that file is an intentionally thin discovery stub for `npx skills add` and exists only to redirect agents to `agent-browser skills get core`.
 4. `docs/src/app/` — the Next.js docs site (MDX pages)
 5. Inline doc comments in the relevant source files
+6. `SIZE.md` — the Resource Sizing Guide, if the change alters the system requirements, memory profile, or performance characteristics of the browser sessions.
 
 This applies to changes that either human users or AI agents would need to know about. Do not skip any of these locations.
 
